@@ -18,7 +18,18 @@ public class RocketControl : MonoBehaviour
     {
         if (_firstStageManager.RocketCanStart)
         {
-            _rocketRigidbody.AddForce(Vector3.up * Time.deltaTime * 1000, ForceMode.Acceleration);
+            //TODO: Zmienić ciąg
+            _rocketRigidbody.AddRelativeForce(Vector3.up * Time.deltaTime * 500);
+
+            if (Input.GetAxis("Horizontal") == 1 || Input.GetAxis("Horizontal") == -1)
+            {
+                _rocketRigidbody.AddTorque(Vector3.back * Time.deltaTime * 20 * Input.GetAxis("Horizontal"));  
+            }
+
+            if (Input.GetAxis("Vertical") == 1 || Input.GetAxis("Vertical") == -1)
+            {
+                _rocketRigidbody.AddTorque(Vector3.right * Time.deltaTime * 20 * Input.GetAxis("Vertical"));
+            }
         }
     }
 }
