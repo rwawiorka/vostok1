@@ -13,5 +13,6 @@ public class CameraControl : MonoBehaviour
     private void LateUpdate()
     {
         _camera.transform.RotateAround(_rocket.transform.position, Vector3.up, Input.GetAxis("Mouse X") * SPEED);
+        _camera.transform.RotateAround(_rocket.transform.position, Vector3.right, Input.GetAxis("Mouse Y") * SPEED);
     }
 }

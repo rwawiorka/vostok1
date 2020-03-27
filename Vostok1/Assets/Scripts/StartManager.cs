@@ -25,7 +25,7 @@ public class StartManager : MonoBehaviour
         // First stage - Release the rocket holders
         if (Input.GetKeyDown(KeyCode.Space) && !RocketCanStart)
         {
-            Debug.Log("zmienic ciag");
+            Debug.LogError("zmienic ciag");
             if (!_isRocketStringSetTo100)
             {
                 //TODO: komunikat o ciągu 100%
