@@ -30,6 +30,19 @@ public class RocketControl : MonoBehaviour
             {
                 _rocketRigidbody.AddTorque(Vector3.right * Time.deltaTime * 20 * Input.GetAxis("Vertical"));
             }
+
+            if (Input.GetAxis("Rotation") == 1 || Input.GetAxis("Rotation") == -1)
+            {
+                _rocketRigidbody.AddTorque(Vector3.down * Time.deltaTime * 10 * Input.GetAxis("Rotation"));
+            }
         }
+    }
+
+    public bool IsControlKeyDown()
+    {
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W) ||
+            Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.E))
+            return true;
+        return false;
     }
 }

@@ -9,7 +9,9 @@ using UnityEngine;
 public class StartManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] _rocketHolders;
-    [SerializeField] private GameObject rocket;
+    [SerializeField] private GameObject _rocket;
+    [SerializeField] private RocketControl _rocketControl;
+    [SerializeField] private ParticleSystem[] _flames;
 
     public bool RocketCanStart
     {
@@ -21,6 +23,14 @@ public class StartManager : MonoBehaviour
 
     private float timerStart;
     private float timerStop;
+
+    private void Start()
+    {
+        foreach (var flame in _flames)
+        {
+            flame.GetComponent<Transform>().localScale = new Vector3(.2f, .2f, .2f);
+        }
+    }
 
     private async void Update()
     {
@@ -36,6 +46,10 @@ public class StartManager : MonoBehaviour
             timerStart = Time.deltaTime;
             timerStop = timerStart + 10f;
             ReleaseTheHolders();
+            foreach (var flame in _flames)
+            {
+                flame.GetComponent<Transform>().DOScale(Vector3.one, 2f);
+            }
             RocketCanStart = true;
             await HoldRocketRotationAsync();
         }
@@ -57,10 +71,9 @@ public class StartManager : MonoBehaviour
     {
         while (true)
         {
-            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W) ||
-                Input.GetKey(KeyCode.S))
+            if (_rocketControl.IsControlKeyDown())
                 break;
-            rocket.transform.rotation = Quaternion.identity;
+            _rocket.transform.rotation = new Quaternion(0f, _rocket.transform.rotation.y, 0f, 1f);
             await Task.Delay(10);
         }
     }

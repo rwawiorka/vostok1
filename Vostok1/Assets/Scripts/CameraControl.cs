@@ -12,6 +12,7 @@ public class CameraControl : MonoBehaviour
 
     private void LateUpdate()
     {
+        // _camera.transform.LookAt(_rocket.transform);
         _camera.transform.RotateAround(_rocket.transform.position, Vector3.up, Input.GetAxis("Mouse X") * SPEED);
     }
 }
