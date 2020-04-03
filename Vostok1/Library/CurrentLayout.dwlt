@@ -140,7 +140,7 @@ MonoBehaviour:
   m_MinSize: {x: 681, y: 348}
   m_MaxSize: {x: 12006, y: 8048}
   vertical: 0
-  controlID: 39
+  controlID: 95
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -165,7 +165,7 @@ MonoBehaviour:
   m_MinSize: {x: 681, y: 348}
   m_MaxSize: {x: 12006, y: 8048}
   vertical: 1
-  controlID: 40
+  controlID: 96
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -191,7 +191,7 @@ MonoBehaviour:
   m_MinSize: {x: 681, y: 224}
   m_MaxSize: {x: 12006, y: 4024}
   vertical: 0
-  controlID: 41
+  controlID: 97
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -416,24 +416,24 @@ MonoBehaviour:
   m_PersistentViewDataDictionary: {fileID: 0}
   m_SceneHierarchy:
     m_TreeViewState:
-      scrollPos: {x: 0, y: 60}
-      m_SelectedIDs: 562d0000
-      m_LastClickedID: 11606
-      m_ExpandedIDs: 2efbffff36fbffff44fbffff6afbffff72fbffffdefbfffff4ffffff682d0000382e00009a2e0000
+      scrollPos: {x: 0, y: 0}
+      m_SelectedIDs: 9c2b0000
+      m_LastClickedID: 0
+      m_ExpandedIDs: 2efbffff36fbffff44fbffff6afbffff72fbffffdefbfffff4ffffff682d0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: HUD
-        m_OriginalName: HUD
+        m_Name: 
+        m_OriginalName: 
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: 11814
+        m_UserData: 0
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 0
+        m_OriginalEventType: 11
         m_IsRenamingFilename: 0
         m_ClientGUIView: {fileID: 9}
       m_SearchString: 
@@ -475,9 +475,9 @@ MonoBehaviour:
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 45.59315, y: -26.19405, z: 52.778267}
+    m_Target: {x: 42.441254, y: -22.71774, z: 53.809723}
     speed: 2
-    m_Value: {x: 45.59315, y: -26.19405, z: 52.778267}
+    m_Value: {x: 42.441254, y: -22.71774, z: 53.809723}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -505,13 +505,13 @@ MonoBehaviour:
       speed: 2
       m_Value: 0
   m_Rotation:
-    m_Target: {x: -0.101300105, y: -0.21021786, z: 0.021903077, w: -0.97214556}
+    m_Target: {x: -0.10938891, y: 0.06261652, z: -0.0069069173, w: -0.9920008}
     speed: 2
-    m_Value: {x: -0.101300105, y: -0.21021786, z: 0.021903077, w: -0.97214556}
+    m_Value: {x: -0.10938891, y: 0.06261652, z: -0.0069069173, w: -0.9920008}
   m_Size:
-    m_Target: 5.8307533
+    m_Target: 21.063065
     speed: 2
-    m_Value: 5.8307533
+    m_Value: 21.063065
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -587,19 +587,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Resources/Terrain
+    - Assets/Scripts
   m_ViewMode: 1
   m_StartGridSize: 43
   m_LastFolders:
-  - Assets/Resources/Terrain
+  - Assets/Scripts
   m_LastFoldersGridSize: 43
   m_LastProjectPath: D:\licencjat\gra\Vostok1\Vostok1
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 323}
-    m_SelectedIDs: 64280000
-    m_LastClickedID: 10340
+    scrollPos: {x: 0, y: 579}
+    m_SelectedIDs: 0a2a0000
+    m_LastClickedID: 10762
     m_ExpandedIDs: 00000000c2260000da260000062700003c27000066270000442a0000da2a0000182b0000342b0000422b0000fa2b0000622f0000642f0000662f0000682f00006a2f00006c2f00006e2f0000702f0000722f000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -653,8 +653,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 682d0000
-    m_LastClickedInstanceID: 11624
+    m_SelectedInstanceIDs: 9efbffff5afbffffdcfbffffb4fbffffcefbffff
+    m_LastClickedInstanceID: -1074
     m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: c62300007c9700001c270000c826000000000000
     m_RenameOverlay:
@@ -708,29 +708,4 @@ MonoBehaviour:
     y: 530.4
     width: 1536
     height: 254
-  m_PersistentViewDataDictionary: {fileID: 0}
---- !u!114 &19
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 12059, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEditor:UnityEditor.Experimental.TerrainAPI:PaintTextureTool
-  m_MinSize: {x: 100, y: 100}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_TitleContent:
-    m_Text: Failed to load
-    m_Image: {fileID: 0}
-    m_Tooltip: 
-  m_Pos:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 320
-    height: 550
   m_PersistentViewDataDictionary: {fileID: 0}

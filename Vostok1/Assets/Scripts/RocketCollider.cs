@@ -10,7 +10,7 @@ public class RocketCollider : MonoBehaviour
     private void Start()
     {
         children = transform.GetComponentsInChildren<Transform>();
-        Debug.Log(children.Length);
+
     }
 
     private void OnCollisionEnter(Collision col)

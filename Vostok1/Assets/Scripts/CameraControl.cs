@@ -13,7 +13,7 @@ public class CameraControl : MonoBehaviour
     public float zoomSensitivity = 15.0f;
     public float zoomSpeed = 5.0f;
     public float zoomMin = 5.0f;
-    public float zoomMax = 80.0f;
+    public float zoomMax = 300.0f;
 
     private float zoom;
 

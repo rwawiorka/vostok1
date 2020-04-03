@@ -38,11 +38,6 @@ public class StartManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && !RocketCanStart)
         {
-            Debug.LogError("zmienic ciag");
-            if (!_isRocketStringSetTo100)
-            {
-                return;
-            }
             timerStart = Time.deltaTime;
             timerStop = timerStart + 10f;
             ReleaseTheHolders();
@@ -53,6 +48,12 @@ public class StartManager : MonoBehaviour
             RocketCanStart = true;
             await HoldRocketRotationAsync();
         }
+
+        if (RocketCanStart)
+        {
+            ToogleFlames(_rocketControl.IsRocketOn);
+        }
+        
 
     }
 
@@ -75,6 +76,24 @@ public class StartManager : MonoBehaviour
                 break;
             _rocket.transform.rotation = new Quaternion(0f, _rocket.transform.rotation.y, 0f, 1f);
             await Task.Delay(10);
+        }
+    }
+
+    private void ToogleFlames(bool isRocketOn)
+    {
+        foreach (var flame in _flames)
+        {
+            if (isRocketOn)
+            {
+                // check only x axis to prevent multiplied checking
+                if (flame.GetComponent<Transform>().localScale.x > 0f) return;
+                flame.GetComponent<Transform>().DOScale(Vector3.one, 2f);
+            }
+            else
+            {
+                if (flame.GetComponent<Transform>().localScale.x < 1f) return;
+                flame.GetComponent<Transform>().DOScale(Vector3.zero, 1f);
+            }
         }
     }
 }

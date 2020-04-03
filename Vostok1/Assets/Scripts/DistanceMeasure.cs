@@ -20,7 +20,7 @@ public class DistanceMeasure : MonoBehaviour
     private void Update()
     {
         MeasureDistanceAndSpeed();
-        Debug.Log("Distance: " + _distance + "||| Speed: " + _speed);
+        // Debug.Log("Distance: " + _distance + "||| Speed: " + _speed);
     }
 
     private void MeasureDistanceAndSpeed()

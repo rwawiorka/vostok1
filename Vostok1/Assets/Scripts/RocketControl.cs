@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +10,13 @@ public class RocketControl : MonoBehaviour
 
     private Rigidbody _rocketRigidbody;
 
+    public bool IsRocketOn
+    {
+        get { return _isRocketOn; }
+        private set { _isRocketOn = value; }
+    }
+    private bool _isRocketOn = true;
+
     private void Start()
     {
         _rocketRigidbody = _rocket.GetComponent<Rigidbody>();
@@ -18,8 +26,15 @@ public class RocketControl : MonoBehaviour
     {
         if (_firstStageManager.RocketCanStart)
         {
-            //TODO: Zmienić ciąg
-            _rocketRigidbody.AddRelativeForce(Vector3.up * Time.deltaTime * 4500);
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                IsRocketOn = !IsRocketOn;
+            }
+
+            if (IsRocketOn)
+            {
+                _rocketRigidbody.AddRelativeForce(Vector3.up * Time.deltaTime * 4500);
+            }
 
             if (Input.GetAxis("Horizontal") == 1 || Input.GetAxis("Horizontal") == -1)
             {
