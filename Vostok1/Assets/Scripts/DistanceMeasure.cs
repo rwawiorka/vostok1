@@ -7,25 +7,32 @@ public class DistanceMeasure : MonoBehaviour
     [SerializeField] private GameObject _floor;
     [SerializeField] private GameObject _rocket;
 
-    private Vector3 _rocketPos;
-    private Vector3 _floorPos;
+    private Vector3 lastPos;
 
     private float _distance;
+    private float _speed;
 
     private void Start()
     {
-        _rocketPos = _rocket.transform.position;
-        _floorPos = _floor.transform.position;
+        lastPos = _rocket.transform.position;
     }
-
+    
     private void Update()
     {
-        MeasureDistance();
-        Debug.Log(_distance);
+        MeasureDistanceAndSpeed();
+        Debug.Log("Distance: " + _distance + "||| Speed: " + _speed);
     }
 
-    private void MeasureDistance()
+    private void MeasureDistanceAndSpeed()
     {
-        _distance = Vector3.Distance(_rocketPos, _floorPos);
+        Ray ray = new Ray(_rocket.transform.position, -Vector3.up);
+        if (Physics.Raycast(ray, out var hit))
+        {
+            _distance = hit.distance / 100;
+        }
+
+        _speed = (_rocket.transform.position - lastPos).magnitude * 1000;
+        lastPos = _rocket.transform.position;
+
     }
 }

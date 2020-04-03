@@ -19,7 +19,7 @@ public class RocketControl : MonoBehaviour
         if (_firstStageManager.RocketCanStart)
         {
             //TODO: Zmienić ciąg
-            _rocketRigidbody.AddRelativeForce(Vector3.up * Time.deltaTime * 500);
+            _rocketRigidbody.AddRelativeForce(Vector3.up * Time.deltaTime * 4500);
 
             if (Input.GetAxis("Horizontal") == 1 || Input.GetAxis("Horizontal") == -1)
             {
