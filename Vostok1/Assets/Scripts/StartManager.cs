@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using DG.Tweening;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class StartManager : MonoBehaviour
 {
@@ -12,17 +14,20 @@ public class StartManager : MonoBehaviour
     [SerializeField] private GameObject _rocket;
     [SerializeField] private RocketControl _rocketControl;
     [SerializeField] private ParticleSystem[] _flames;
+    [SerializeField] private DistanceMeasure _distanceMeasure;
+    [SerializeField] private BackgroundDimmer _background;
+    [SerializeField] private CloudsCreator _cloudsCreator;
 
-    public bool RocketCanStart
-    {
-        get => _rocketCanStart;
-        private set => _rocketCanStart = value;
-    }
-    private bool _rocketCanStart;
-    private bool _isRocketStringSetTo100 = true;
+    private const decimal DISTANCETOSPACE = 5;
+    private const decimal DISTANCETOCREATECLOUDS = 2;
+    private const decimal DISTANCETOINCREASEEMISSION = 3.5M;
 
-    private float timerStart;
-    private float timerStop;
+    public bool IsRocketInSpace { get; private set; }
+
+    public bool RocketCanStart { get; private set; }
+
+    private bool _droppedBoosters;
+
 
     private void Start()
     {
@@ -38,23 +43,45 @@ public class StartManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && !RocketCanStart)
         {
-            timerStart = Time.deltaTime;
-            timerStop = timerStart + 10f;
             ReleaseTheHolders();
             foreach (var flame in _flames)
             {
                 flame.GetComponent<Transform>().DOScale(Vector3.one, 2f);
             }
             RocketCanStart = true;
+            _background.FadeDown();
             await HoldRocketRotationAsync();
         }
 
-        if (RocketCanStart)
+        if (!IsRocketInSpace)
         {
-            ToogleFlames(_rocketControl.IsRocketOn);
+            if (RocketCanStart)
+            {
+                ToggleFlames(_rocketControl.IsRocketOn);
+            }
+
+            if (_distanceMeasure.Distance >= DISTANCETOSPACE)
+            {
+                IsRocketInSpace = true;
+            }
+
+            if (_distanceMeasure.Distance >= DISTANCETOCREATECLOUDS)
+            {
+                _cloudsCreator.ToggleClouds(true);
+                DropElement(0, 3); // drop boosters;
+            }
+
+            if (_distanceMeasure.Distance >= DISTANCETOINCREASEEMISSION)
+            {
+                _cloudsCreator.IncreaseCloudEmission();
+            }
+        }
+        else
+        {
+            SceneManager.LoadScene("SpaceScene");
+            _cloudsCreator.ToggleClouds(false);
         }
         
-
     }
 
     private void ReleaseTheHolders()
@@ -79,7 +106,7 @@ public class StartManager : MonoBehaviour
         }
     }
 
-    private void ToogleFlames(bool isRocketOn)
+    private void ToggleFlames(bool isRocketOn)
     {
         foreach (var flame in _flames)
         {
@@ -95,5 +122,17 @@ public class StartManager : MonoBehaviour
                 flame.GetComponent<Transform>().DOScale(Vector3.zero, 1f);
             }
         }
+    }
+
+    private void DropElement(int startIndex, int endIndex)
+    {
+        if (_droppedBoosters) return;
+        for (var i = startIndex; i <= endIndex; i++)
+        {
+            _rocket.transform.GetChild(0).gameObject.AddComponent<Rigidbody>();
+            _rocket.transform.GetChild(0).parent = null;
+        }
+
+        _droppedBoosters = true;
     }
 }
