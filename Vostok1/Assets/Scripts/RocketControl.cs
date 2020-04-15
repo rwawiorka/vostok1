@@ -33,7 +33,7 @@ public class RocketControl : MonoBehaviour
 
             if (IsRocketOn)
             {
-                _rocketRigidbody.AddRelativeForce(Vector3.up * Time.deltaTime * 4500);
+                _rocketRigidbody.AddRelativeForce(Vector3.up * Time.deltaTime * _firstStageManager.RocketForce);
             }
 
             if (Input.GetAxis("Horizontal") == 1 || Input.GetAxis("Horizontal") == -1)

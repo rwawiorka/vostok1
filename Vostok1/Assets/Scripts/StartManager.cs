@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using DG.Tweening;
-using UnityEditor;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,68 +16,77 @@ public class StartManager : MonoBehaviour
     [SerializeField] private BackgroundDimmer _background;
     [SerializeField] private CloudsCreator _cloudsCreator;
 
-    private const decimal DISTANCETOSPACE = 5;
-    private const decimal DISTANCETOCREATECLOUDS = 2;
-    private const decimal DISTANCETOINCREASEEMISSION = 3.5M;
+    public const decimal DISTANCETOSPACE = 6.5M;
+    public const decimal DISTANCETOCREATECLOUDS = 3.5M;
+    public const decimal DISTANCETOINCREASEEMISSION = 5.5M;
 
     public bool IsRocketInSpace { get; private set; }
 
     public bool RocketCanStart { get; private set; }
 
-    private bool _droppedBoosters;
+    public float RocketForce { get; private set; }
 
+    private bool _droppedBoosters;
+    private bool _droppedMainEngine;
+    private bool _droppedCapsuleBooster;
+
+    private List<Transform> _boosters;
 
     private void Start()
     {
+        _boosters = new List<Transform>();
+
         foreach (var flame in _flames)
         {
             flame.GetComponent<Transform>().localScale = new Vector3(.2f, .2f, .2f);
         }
+
+        RocketForce = 4500;
     }
 
     private async void Update()
     {
         // First stage - Release the rocket holders
-
-        if (Input.GetKeyDown(KeyCode.Space) && !RocketCanStart)
-        {
-            ReleaseTheHolders();
-            foreach (var flame in _flames)
-            {
-                flame.GetComponent<Transform>().DOScale(Vector3.one, 2f);
-            }
-            RocketCanStart = true;
-            _background.FadeDown();
-            await HoldRocketRotationAsync();
-        }
-
         if (!IsRocketInSpace)
         {
+            if (Input.GetKeyDown(KeyCode.Space) && !RocketCanStart)
+            {
+                ReleaseTheHolders();
+                foreach (var flame in _flames)
+                {
+                    flame.GetComponent<Transform>().DOScale(Vector3.one, 2f);
+                }
+                RocketCanStart = true;
+                _background.FadeDown();
+                await HoldRocketRotationAsync();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                DropBoosters();
+                RocketForce -= 1125;
+            }
+
             if (RocketCanStart)
             {
                 ToggleFlames(_rocketControl.IsRocketOn);
             }
-
+            
             if (_distanceMeasure.Distance >= DISTANCETOSPACE)
             {
                 IsRocketInSpace = true;
+                SceneManager.LoadScene("SpaceScene");
             }
-
+            
             if (_distanceMeasure.Distance >= DISTANCETOCREATECLOUDS)
             {
                 _cloudsCreator.ToggleClouds(true);
-                DropElement(0, 3); // drop boosters;
-            }
-
-            if (_distanceMeasure.Distance >= DISTANCETOINCREASEEMISSION)
-            {
-                _cloudsCreator.IncreaseCloudEmission();
             }
         }
+
         else
         {
-            SceneManager.LoadScene("SpaceScene");
-            _cloudsCreator.ToggleClouds(false);
+            Debug.Log("welcome in space");
         }
         
     }
@@ -124,15 +131,44 @@ public class StartManager : MonoBehaviour
         }
     }
 
-    private void DropElement(int startIndex, int endIndex)
+    private void DropBoosters()
     {
         if (_droppedBoosters) return;
-        for (var i = startIndex; i <= endIndex; i++)
+        var sequence = DOTween.Sequence();
+        for (var i = 0; i <= 3; i++) //boosters are on 0-3 position
         {
-            _rocket.transform.GetChild(0).gameObject.AddComponent<Rigidbody>();
-            _rocket.transform.GetChild(0).parent = null;
-        }
+            var booster = _rocket.transform.GetChild(i);
+            _boosters.Add(booster);
 
-        _droppedBoosters = true;
+            switch (i)
+            {
+                case 0:
+                    sequence.Join(booster.DORotate(new Vector3(150, 0, 0), 2f));
+                    break;
+                case 1:
+                    sequence.Join(booster.DORotate(new Vector3(0, 0, -150), 2f));
+                    break;
+                case 2:
+                    sequence.Join(booster.DORotate(new Vector3(-150, 0, 0), 2f));
+                    break;
+                case 3:
+                    sequence.Join(booster.DORotate(new Vector3(0, 0, 150), 2f));
+                    break;
+            }
+        }
+        sequence.OnComplete(EndDropBoosters);
     }
+
+    private void EndDropBoosters()
+    {
+        for (var i = 0; i <= 3; i++)
+        {
+            var booster = _rocket.transform.GetChild(0);
+            booster.parent = null;
+        }
+        _droppedBoosters = true;
+        _rocket.GetComponent<Rigidbody>().mass -= 2;
+    }
+
+
 }

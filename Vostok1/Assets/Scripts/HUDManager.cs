@@ -26,7 +26,19 @@ public class HUDManager : MonoBehaviour
         {
             _speedText.text = "Speed: " + _distance.Speed + "km/h";
         }
-        
-        _distanceText.text = "Distance: " + _distance.Distance + "km";
+
+        switch (_distance.Distance.ToString().Length)
+        {
+            case 1:
+                _distanceText.text = "Distance: " + _distance.Distance + ",00km";
+                break;
+            case 3:
+                _distanceText.text = "Distance: " + _distance.Distance + "0km";
+                break;
+            default:
+                _distanceText.text = "Distance: " + _distance.Distance + "km";
+                break;
+        }
+
     }
 }

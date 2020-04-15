@@ -10,6 +10,7 @@ public class DistanceMeasure : MonoBehaviour
 
     [SerializeField] private GameObject _floor;
     [SerializeField] private GameObject _rocket;
+    [SerializeField] private StartManager _startManager;
 
     private Vector3 lastPos;
 
@@ -21,22 +22,21 @@ public class DistanceMeasure : MonoBehaviour
     private void Update()
     {
         MeasureDistanceAndSpeed();
-        Debug.Log(Distance + " " + Speed);
     }
 
     private void MeasureDistanceAndSpeed()
     {
-        Ray ray = new Ray(_rocket.transform.position, -Vector3.up);
-        if (Physics.Raycast(ray, out var hit))
+        if (_startManager.IsRocketInSpace)
         {
-            Distance = (decimal) (hit.distance / 100);
-            Distance = TruncateDecimal(Distance, 2);
+            _floor = GameObject.Find("Earth");
         }
-
-        Speed = (decimal) ((_rocket.transform.position - lastPos).magnitude * 1000);
+        Distance = (decimal) Vector3.Distance(_rocket.transform.position, _floor.transform.position);
+        Distance -= 69.23332M;
+        Distance /= 100;
+        Distance = TruncateDecimal(Distance, 2);
+        Speed = (decimal) ((_rocket.transform.position - lastPos).magnitude * 900);
         Speed = Math.Truncate(Speed);
         lastPos = _rocket.transform.position;
-
     }
 
     private decimal TruncateDecimal(decimal value, int precision)
