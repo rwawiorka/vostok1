@@ -10,14 +10,14 @@ public class CloudsCreator : MonoBehaviour
     [SerializeField] private DistanceMeasure _distanceMeasure;
 
     private const float SPEED = 10f;
-    private bool _isCloudToggled;
+    public bool IsCloudToggled { get; private set; }
 
     public void ToggleClouds(bool toggle)
     {
-        if (_isCloudToggled) return;
+        IsCloudToggled = toggle;
         _cloud.gameObject.SetActive(toggle);
-        _isCloudToggled = true;
-        StartCoroutine(ToggleClouds());
+        if(toggle)
+            StartCoroutine(ToggleClouds());
     }
 
     private void Update()

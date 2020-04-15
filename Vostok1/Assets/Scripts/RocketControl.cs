@@ -24,40 +24,36 @@ public class RocketControl : MonoBehaviour
 
     private void Update()
     {
-        if (_firstStageManager.RocketCanStart)
+        if (!_firstStageManager.RocketCanStart) return;
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            if (Input.GetKeyDown(KeyCode.LeftShift))
-            {
-                IsRocketOn = !IsRocketOn;
-            }
+            IsRocketOn = !IsRocketOn;
+        }
 
-            if (IsRocketOn)
-            {
-                _rocketRigidbody.AddRelativeForce(Vector3.up * Time.deltaTime * _firstStageManager.RocketForce);
-            }
+        if (IsRocketOn)
+        {
+            _rocketRigidbody.AddRelativeForce(Vector3.up * Time.deltaTime * _firstStageManager.RocketForce);
+        }
 
-            if (Input.GetAxis("Horizontal") == 1 || Input.GetAxis("Horizontal") == -1)
-            {
-                _rocketRigidbody.AddTorque(Vector3.back * Time.deltaTime * 20 * Input.GetAxis("Horizontal"));  
-            }
+        if (Input.GetAxis("Horizontal") == 1 || Input.GetAxis("Horizontal") == -1)
+        {
+            _rocketRigidbody.AddTorque(Vector3.back * Time.deltaTime * 20 * Input.GetAxis("Horizontal"));  
+        }
 
-            if (Input.GetAxis("Vertical") == 1 || Input.GetAxis("Vertical") == -1)
-            {
-                _rocketRigidbody.AddTorque(Vector3.right * Time.deltaTime * 20 * Input.GetAxis("Vertical"));
-            }
+        if (Input.GetAxis("Vertical") == 1 || Input.GetAxis("Vertical") == -1)
+        {
+            _rocketRigidbody.AddTorque(Vector3.right * Time.deltaTime * 20 * Input.GetAxis("Vertical"));
+        }
 
-            if (Input.GetAxis("Rotation") == 1 || Input.GetAxis("Rotation") == -1)
-            {
-                _rocketRigidbody.AddTorque(Vector3.down * Time.deltaTime * 10 * Input.GetAxis("Rotation"));
-            }
+        if (Input.GetAxis("Rotation") == 1 || Input.GetAxis("Rotation") == -1)
+        {
+            _rocketRigidbody.AddTorque(Vector3.down * Time.deltaTime * 10 * Input.GetAxis("Rotation"));
         }
     }
 
     public bool IsControlKeyDown()
     {
-        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W) ||
-            Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.E))
-            return true;
-        return false;
+        return Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W) ||
+               Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.E);
     }
 }

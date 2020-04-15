@@ -61,6 +61,12 @@ public class StartManager : MonoBehaviour
                 await HoldRocketRotationAsync();
             }
 
+            if (Input.GetKeyDown(KeyCode.F3))
+            {
+                SceneManager.LoadScene("SpaceScene");
+                IsRocketInSpace = true;
+            } 
+
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 DropBoosters();
@@ -80,13 +86,16 @@ public class StartManager : MonoBehaviour
             
             if (_distanceMeasure.Distance >= DISTANCETOCREATECLOUDS)
             {
-                _cloudsCreator.ToggleClouds(true);
+                if(!_cloudsCreator.IsCloudToggled)
+                    _cloudsCreator.ToggleClouds(true);
             }
         }
 
         else
         {
-            Debug.Log("welcome in space");
+            _rocket.transform.position = new Vector3();
+            await Task.Delay(5000);
+            _cloudsCreator.ToggleClouds(false);
         }
         
     }
