@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Net.Mime;
 using UnityEngine;
@@ -12,16 +13,25 @@ public class HUDManager : MonoBehaviour
     
     [SerializeField] private Text _speedText;
     [SerializeField] private Text _distanceText;
+    [SerializeField] private Text _fuelText;
 
     private void Start()
     {
         _speedText.text = "Speed: 0km/h";
         _distanceText.text = "Distance: 0km";
+        _fuelText.text = "Boosters Fuel: " + _startManager.BoostersFuel + "l";
     }
 
     private void Update()
     {
         if (!_startManager.RocketCanStart) return;
+
+        if (_startManager.IsRocketInSpace)
+        {
+            _distanceText.color = _speedText.color = _fuelText.color = Color.white;
+
+        }
+
         if (_distance.Speed != 0)
         {
             _speedText.text = "Speed: " + _distance.Speed + "km/h";
@@ -40,5 +50,14 @@ public class HUDManager : MonoBehaviour
                 break;
         }
 
+        if (_startManager.BoostersFuel > 0)
+        {
+            _fuelText.text = "Boosters Fuel: " + Math.Truncate(_startManager.BoostersFuel) + "l";
+        }
+        else if (_startManager.RocketFuel > 0)
+        {
+            _fuelText.text = "Rocket Fuel: " + Math.Truncate(_startManager.RocketFuel) + "l";
+        }
+        
     }
 }

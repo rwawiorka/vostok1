@@ -23,7 +23,7 @@ public class BackgroundDimmer : MonoBehaviour
 
     private IEnumerator Fade()
     {
-        while (!_startManager.IsRocketInSpace && EditorApplication.isPlaying)
+        while (!_startManager.IsRocketInSpace)
         {
             //TODO: Delete EditorApplication on build
             TimeRocketOn -= Time.deltaTime / 8;

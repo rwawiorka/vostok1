@@ -5,34 +5,44 @@ using UnityEngine;
 
 public class CameraControl : MonoBehaviour
 {
-    [SerializeField] private Camera _camera;
-    [SerializeField] private GameObject _rocket;
+    [SerializeField] GameObject target;
 
-    private const float SPEED = 2f;
+    [Header("Speed")]
+    [SerializeField] float moveSpeed = 300f;
+    [SerializeField] float zoomSpeed = 100f;
 
-    public float zoomSensitivity = 15.0f;
-    public float zoomSpeed = 5.0f;
-    public float zoomMin = 5.0f;
-    public float zoomMax = 300.0f;
-
-    private float zoom;
-
-    private void Start()
-    {
-        zoom = _camera.fieldOfView;
-    }
+    [Header("Zoom")]
+    [SerializeField] float minDistance = 2f;
+    [SerializeField] float maxDistance = 5f;
 
     private void Update()
     {
-        zoom -= Input.GetAxis("Mouse ScrollWheel") * zoomSensitivity;
-        zoom = Mathf.Clamp(zoom, zoomMin, zoomMax);
+        CameraController();
     }
 
-    private void LateUpdate()
+    private void CameraController()
     {
-        _camera.transform.RotateAround(_rocket.transform.position, Vector3.up, Input.GetAxis("Mouse X") * SPEED);
-        _camera.fieldOfView = Mathf.Lerp(_camera.fieldOfView, zoom, Time.deltaTime * zoomSpeed);
+        if (Input.GetMouseButton(0))
+        {
+            transform.RotateAround(target.transform.position, Vector3.up, ((Input.GetAxisRaw("Mouse X") * Time.deltaTime) * moveSpeed));
+            transform.RotateAround(target.transform.position, transform.right, -((Input.GetAxisRaw("Mouse Y") * Time.deltaTime) * moveSpeed));
+        }
+
+        ZoomCamera();
     }
 
-    
+    private void ZoomCamera()
+    {
+        if (Vector3.Distance(transform.position, target.transform.position) <= minDistance && Input.GetAxis("Mouse ScrollWheel") > 0f) { return; }
+        if (Vector3.Distance(transform.position, target.transform.position) >= maxDistance && Input.GetAxis("Mouse ScrollWheel") < 0f) { return; }
+
+        transform.Translate(
+            0f,
+            0f,
+            (Input.GetAxis("Mouse ScrollWheel") * Time.deltaTime) * zoomSpeed,
+            Space.Self
+        );
+    }
+
+
 }

@@ -10,12 +10,7 @@ public class RocketControl : MonoBehaviour
 
     private Rigidbody _rocketRigidbody;
 
-    public bool IsRocketOn
-    {
-        get { return _isRocketOn; }
-        private set { _isRocketOn = value; }
-    }
-    private bool _isRocketOn = true;
+    public bool IsRocketOn { get; private set; } = true;
 
     private void Start()
     {
@@ -29,7 +24,6 @@ public class RocketControl : MonoBehaviour
         {
             IsRocketOn = !IsRocketOn;
         }
-
         if (IsRocketOn)
         {
             _rocketRigidbody.AddRelativeForce(Vector3.up * Time.deltaTime * _firstStageManager.RocketForce);
@@ -37,17 +31,17 @@ public class RocketControl : MonoBehaviour
 
         if (Input.GetAxis("Horizontal") == 1 || Input.GetAxis("Horizontal") == -1)
         {
-            _rocketRigidbody.AddTorque(Vector3.back * Time.deltaTime * 20 * Input.GetAxis("Horizontal"));  
+            _rocketRigidbody.AddTorque(Vector3.back * Time.deltaTime * 50 * Input.GetAxis("Horizontal"));  
         }
 
         if (Input.GetAxis("Vertical") == 1 || Input.GetAxis("Vertical") == -1)
         {
-            _rocketRigidbody.AddTorque(Vector3.right * Time.deltaTime * 20 * Input.GetAxis("Vertical"));
+            _rocketRigidbody.AddTorque(Vector3.right * Time.deltaTime * 50 * Input.GetAxis("Vertical"));
         }
 
         if (Input.GetAxis("Rotation") == 1 || Input.GetAxis("Rotation") == -1)
         {
-            _rocketRigidbody.AddTorque(Vector3.down * Time.deltaTime * 10 * Input.GetAxis("Rotation"));
+            _rocketRigidbody.AddTorque(Vector3.down * Time.deltaTime * 50 * Input.GetAxis("Rotation"));
         }
     }
 

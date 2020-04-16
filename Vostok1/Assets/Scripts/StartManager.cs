@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Experimental.UIElements;
 using UnityEngine.SceneManagement;
 
 public class StartManager : MonoBehaviour
@@ -26,9 +27,15 @@ public class StartManager : MonoBehaviour
 
     public float RocketForce { get; private set; }
 
+    public float BoostersFuel { get; private set; }
+
+    public float RocketFuel { get; private set; }
+
     private bool _droppedBoosters;
     private bool _droppedMainEngine;
     private bool _droppedCapsuleBooster;
+
+    private bool _spaceVariablesInitialized;
 
     private List<Transform> _boosters;
 
@@ -42,6 +49,8 @@ public class StartManager : MonoBehaviour
         }
 
         RocketForce = 4500;
+        RocketFuel = 1500;
+        BoostersFuel = 2000;
     }
 
     private async void Update()
@@ -63,14 +72,15 @@ public class StartManager : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.F3))
             {
-                SceneManager.LoadScene("SpaceScene");
-                IsRocketInSpace = true;
+                FlyToSpace();
             } 
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (!_droppedBoosters && (Input.GetKeyDown(KeyCode.Space) || _distanceMeasure.Distance >= DISTANCETOCREATECLOUDS || BoostersFuel <= 0))
             {
                 DropBoosters();
+                BoostersFuel = 0;
                 RocketForce -= 1125;
+                _droppedBoosters = true;
             }
 
             if (RocketCanStart)
@@ -80,8 +90,13 @@ public class StartManager : MonoBehaviour
             
             if (_distanceMeasure.Distance >= DISTANCETOSPACE)
             {
-                IsRocketInSpace = true;
-                SceneManager.LoadScene("SpaceScene");
+                if (SceneManager.GetActiveScene().name == "SpaceScene") return;
+                foreach (var booster in _boosters)
+                {
+                    DestroyImmediate(booster.gameObject);
+                }
+                FlyToSpace();
+
             }
             
             if (_distanceMeasure.Distance >= DISTANCETOCREATECLOUDS)
@@ -92,14 +107,23 @@ public class StartManager : MonoBehaviour
         }
 
         else
-        {
-            _rocket.transform.position = new Vector3();
+        { 
             await Task.Delay(5000);
             _cloudsCreator.ToggleClouds(false);
         }
-        
-    }
 
+        if (_rocketControl.IsRocketOn)
+        {
+            if (BoostersFuel > 0 && !_droppedBoosters) // stage 1;
+            {
+                BoostersFuel -= Time.deltaTime * 50;
+            }
+            else if (RocketFuel > 0 && !_droppedMainEngine) // stage 2;
+            {
+                RocketFuel -= Time.deltaTime * 20;
+            }
+        }
+    }
     private void ReleaseTheHolders()
     {
         // Animation of holders to release the rocket.
@@ -175,9 +199,20 @@ public class StartManager : MonoBehaviour
             var booster = _rocket.transform.GetChild(0);
             booster.parent = null;
         }
-        _droppedBoosters = true;
         _rocket.GetComponent<Rigidbody>().mass -= 2;
     }
 
+    private void FlyToSpace()
+    {
+        IsRocketInSpace = true;
+        SceneManager.LoadScene("SpaceScene");
+        InitializeSpaceVariables();
+    }
 
+    private void InitializeSpaceVariables()
+    {
+        if (_spaceVariablesInitialized) return;
+        _rocket.transform.position = new Vector3(-5604.4f, 8123.8f, -1635.0f);
+        _rocket.GetComponent<Rigidbody>().useGravity = false;
+    }
 }
