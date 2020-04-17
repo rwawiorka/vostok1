@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.007865185, g: 0.0075365407, b: 0.0067050895, a: 1}
+  m_IndirectSpecularColor: {r: 0.0040298, g: 0.0038686483, b: 0.0034622292, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -125,15 +125,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 432644, guid: c2e22098ce7c8da4590cceb5113bd50e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.42842197
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 432644, guid: c2e22098ce7c8da4590cceb5113bd50e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.9388847
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 432644, guid: c2e22098ce7c8da4590cceb5113bd50e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 14.695154
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 432644, guid: c2e22098ce7c8da4590cceb5113bd50e, type: 3}
       propertyPath: m_LocalRotation.x
@@ -229,6 +229,54 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c2e22098ce7c8da4590cceb5113bd50e, type: 3}
+--- !u!1 &173215275 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 157262, guid: c2e22098ce7c8da4590cceb5113bd50e,
+    type: 3}
+  m_PrefabInstance: {fileID: 173215274}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &173215276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 173215275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cb0ecec096c6e7418c11e870adab3dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rocket: {fileID: 0}
+--- !u!54 &173215277
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 173215275}
+  serializedVersion: 2
+  m_Mass: 6000
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!135 &173215278
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 173215275}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 100
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!43 &965525054
 Mesh:
   m_ObjectHideFlags: 0

@@ -132,7 +132,7 @@ PrefabInstance:
     - target: {fileID: 3246384896821554228, guid: 563046f96969d094a9340ec5a88f6e6c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.047000885
+      value: -0.15
       objectReference: {fileID: 0}
     - target: {fileID: 3246384896821554228, guid: 563046f96969d094a9340ec5a88f6e6c,
         type: 3}
@@ -253,6 +253,21 @@ PrefabInstance:
         type: 3}
       propertyPath: TrailModule.textureMode
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3439663623182609886, guid: 563046f96969d094a9340ec5a88f6e6c,
+        type: 3}
+      propertyPath: useRigidbodyForVelocity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3439663623182609886, guid: 563046f96969d094a9340ec5a88f6e6c,
+        type: 3}
+      propertyPath: moveWithTransform
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3439663623182609886, guid: 563046f96969d094a9340ec5a88f6e6c,
+        type: 3}
+      propertyPath: simulationSpeed
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 563046f96969d094a9340ec5a88f6e6c, type: 3}
@@ -521,7 +536,7 @@ PrefabInstance:
     - target: {fileID: 3246384896821554228, guid: 563046f96969d094a9340ec5a88f6e6c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.047000885
+      value: -0.15
       objectReference: {fileID: 0}
     - target: {fileID: 3246384896821554228, guid: 563046f96969d094a9340ec5a88f6e6c,
         type: 3}
@@ -642,6 +657,21 @@ PrefabInstance:
         type: 3}
       propertyPath: TrailModule.textureMode
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3439663623182609886, guid: 563046f96969d094a9340ec5a88f6e6c,
+        type: 3}
+      propertyPath: useRigidbodyForVelocity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3439663623182609886, guid: 563046f96969d094a9340ec5a88f6e6c,
+        type: 3}
+      propertyPath: moveWithTransform
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3439663623182609886, guid: 563046f96969d094a9340ec5a88f6e6c,
+        type: 3}
+      propertyPath: simulationSpeed
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 563046f96969d094a9340ec5a88f6e6c, type: 3}
@@ -1477,12 +1507,12 @@ PrefabInstance:
     - target: {fileID: 3246384896821554228, guid: 563046f96969d094a9340ec5a88f6e6c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.0909996
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3246384896821554228, guid: 563046f96969d094a9340ec5a88f6e6c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.020000458
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3246384896821554228, guid: 563046f96969d094a9340ec5a88f6e6c,
         type: 3}
@@ -1603,6 +1633,26 @@ PrefabInstance:
         type: 3}
       propertyPath: TrailModule.textureMode
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3439663623182609886, guid: 563046f96969d094a9340ec5a88f6e6c,
+        type: 3}
+      propertyPath: useRigidbodyForVelocity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3439663623182609886, guid: 563046f96969d094a9340ec5a88f6e6c,
+        type: 3}
+      propertyPath: moveWithTransform
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3439663623182609886, guid: 563046f96969d094a9340ec5a88f6e6c,
+        type: 3}
+      propertyPath: simulationSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3439663623182609886, guid: 563046f96969d094a9340ec5a88f6e6c,
+        type: 3}
+      propertyPath: SizeModule.curve.scalar
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 563046f96969d094a9340ec5a88f6e6c, type: 3}
@@ -2427,7 +2477,7 @@ PrefabInstance:
     - target: {fileID: 3246384896821554228, guid: 563046f96969d094a9340ec5a88f6e6c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.045
+      value: -0.15
       objectReference: {fileID: 0}
     - target: {fileID: 3246384896821554228, guid: 563046f96969d094a9340ec5a88f6e6c,
         type: 3}
@@ -2548,6 +2598,21 @@ PrefabInstance:
         type: 3}
       propertyPath: TrailModule.textureMode
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3439663623182609886, guid: 563046f96969d094a9340ec5a88f6e6c,
+        type: 3}
+      propertyPath: useRigidbodyForVelocity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3439663623182609886, guid: 563046f96969d094a9340ec5a88f6e6c,
+        type: 3}
+      propertyPath: moveWithTransform
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3439663623182609886, guid: 563046f96969d094a9340ec5a88f6e6c,
+        type: 3}
+      propertyPath: simulationSpeed
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 563046f96969d094a9340ec5a88f6e6c, type: 3}
@@ -4932,7 +4997,7 @@ PrefabInstance:
     - target: {fileID: 3246384896821554228, guid: 563046f96969d094a9340ec5a88f6e6c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.06
+      value: -0.15
       objectReference: {fileID: 0}
     - target: {fileID: 3246384896821554228, guid: 563046f96969d094a9340ec5a88f6e6c,
         type: 3}
@@ -5053,6 +5118,21 @@ PrefabInstance:
         type: 3}
       propertyPath: TrailModule.textureMode
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3439663623182609886, guid: 563046f96969d094a9340ec5a88f6e6c,
+        type: 3}
+      propertyPath: useRigidbodyForVelocity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3439663623182609886, guid: 563046f96969d094a9340ec5a88f6e6c,
+        type: 3}
+      propertyPath: moveWithTransform
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3439663623182609886, guid: 563046f96969d094a9340ec5a88f6e6c,
+        type: 3}
+      propertyPath: simulationSpeed
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 563046f96969d094a9340ec5a88f6e6c, type: 3}

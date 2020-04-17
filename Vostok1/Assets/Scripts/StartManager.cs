@@ -72,15 +72,14 @@ public class StartManager : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.F3))
             {
+                DropBoosters();
+                await Task.Delay(2500);
                 FlyToSpace();
             } 
 
             if (!_droppedBoosters && (Input.GetKeyDown(KeyCode.Space) || _distanceMeasure.Distance >= DISTANCETOCREATECLOUDS || BoostersFuel <= 0))
             {
                 DropBoosters();
-                BoostersFuel = 0;
-                RocketForce -= 1125;
-                _droppedBoosters = true;
             }
 
             if (RocketCanStart)
@@ -107,7 +106,7 @@ public class StartManager : MonoBehaviour
         }
 
         else
-        { 
+        {
             await Task.Delay(5000);
             _cloudsCreator.ToggleClouds(false);
         }
@@ -167,6 +166,9 @@ public class StartManager : MonoBehaviour
     private void DropBoosters()
     {
         if (_droppedBoosters) return;
+        BoostersFuel = 0;
+        RocketForce -= 1125;
+        _droppedBoosters = true;
         var sequence = DOTween.Sequence();
         for (var i = 0; i <= 3; i++) //boosters are on 0-3 position
         {
@@ -213,6 +215,11 @@ public class StartManager : MonoBehaviour
     {
         if (_spaceVariablesInitialized) return;
         _rocket.transform.position = new Vector3(-5604.4f, 8123.8f, -1635.0f);
+        RocketForce = 0;
+        var rocketFlame = GameObject.Find("Flames (3)").GetComponent<ParticleSystem>();
+        var rocketFlameMain = rocketFlame.main;
+        rocketFlameMain.simulationSpace = ParticleSystemSimulationSpace.Local;
+        _rocket.GetComponent<Rigidbody>().velocity = Vector3.zero;
         _rocket.GetComponent<Rigidbody>().useGravity = false;
     }
 }

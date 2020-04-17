@@ -29,7 +29,6 @@ public class HUDManager : MonoBehaviour
         if (_startManager.IsRocketInSpace)
         {
             _distanceText.color = _speedText.color = _fuelText.color = Color.white;
-
         }
 
         if (_distance.Speed != 0)
