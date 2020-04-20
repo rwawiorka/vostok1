@@ -50,7 +50,7 @@ public class StartManager : MonoBehaviour
 
         RocketForce = 4500;
         RocketFuel = 1500;
-        BoostersFuel = 2000;
+        BoostersFuel = 1500;
     }
 
     private async void Update()
@@ -214,12 +214,12 @@ public class StartManager : MonoBehaviour
     private void InitializeSpaceVariables()
     {
         if (_spaceVariablesInitialized) return;
-        _rocket.transform.position = new Vector3(-5604.4f, 8123.8f, -1635.0f);
-        RocketForce = 0;
+        _rocket.transform.position = new Vector3(-246.32f, 785.78f, -582.07f);
+        RocketForce = 40;
         var rocketFlame = GameObject.Find("Flames (3)").GetComponent<ParticleSystem>();
         var rocketFlameMain = rocketFlame.main;
         rocketFlameMain.simulationSpace = ParticleSystemSimulationSpace.Local;
-        _rocket.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        _rocket.GetComponent<Rigidbody>().velocity = _rocket.GetComponent<Rigidbody>().velocity / 100;
         _rocket.GetComponent<Rigidbody>().useGravity = false;
     }
 }

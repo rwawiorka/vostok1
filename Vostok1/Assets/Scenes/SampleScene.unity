@@ -841,6 +841,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _firstStageManager: {fileID: 148649867}
   _rocket: {fileID: 570489615}
+  camera: {fileID: 534669905}
 --- !u!114 &148649870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2148,8 +2149,8 @@ MonoBehaviour:
   target: {fileID: 570489615}
   moveSpeed: 300
   zoomSpeed: 100
-  minDistance: 3
-  maxDistance: 12
+  minDistance: 2
+  maxDistance: 5
 --- !u!1 &563893518
 GameObject:
   m_ObjectHideFlags: 0

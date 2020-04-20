@@ -7,6 +7,7 @@ public class RocketControl : MonoBehaviour
 {
     [SerializeField] private StartManager _firstStageManager;
     [SerializeField] private GameObject _rocket;
+    [SerializeField] private Transform camera;
 
     private Rigidbody _rocketRigidbody;
 
@@ -26,24 +27,24 @@ public class RocketControl : MonoBehaviour
         }
         if (IsRocketOn)
         {
-            _rocketRigidbody.AddRelativeForce(Vector3.up * Time.deltaTime * _firstStageManager.RocketForce);
+            _rocketRigidbody.AddRelativeForce(transform.up * Time.deltaTime * _firstStageManager.RocketForce);
         }
 
         if (Input.GetAxis("Horizontal") == 1 || Input.GetAxis("Horizontal") == -1)
         {
-            _rocketRigidbody.AddTorque(Vector3.back * Time.deltaTime * 50 * Input.GetAxis("Horizontal"));  
+            _rocketRigidbody.AddTorque(Vector3.forward * Time.deltaTime * 50 * Input.GetAxis("Horizontal"));  
         }
-
+        
         if (Input.GetAxis("Vertical") == 1 || Input.GetAxis("Vertical") == -1)
         {
             _rocketRigidbody.AddTorque(Vector3.right * Time.deltaTime * 50 * Input.GetAxis("Vertical"));
         }
-
+        
         if (Input.GetAxis("Rotation") == 1 || Input.GetAxis("Rotation") == -1)
         {
             _rocketRigidbody.AddTorque(Vector3.down * Time.deltaTime * 50 * Input.GetAxis("Rotation"));
         }
-    }
+    }   
 
     public bool IsControlKeyDown()
     {

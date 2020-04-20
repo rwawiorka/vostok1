@@ -13,12 +13,14 @@ public class EarthGravity : MonoBehaviour
     private void Start()
     {
         _rocket = GameObject.Find("Rocket");
+        if (_rocket == null) return;
         _rocketRb = _rocket.GetComponent<Rigidbody>();
         _thisRb = GetComponent<Rigidbody>();
     }
 
     private void FixedUpdate()
     {
+        if (_thisRb == null) return; 
         Gravity();
     }
 
