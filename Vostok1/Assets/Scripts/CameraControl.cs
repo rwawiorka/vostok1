@@ -27,7 +27,7 @@ public class CameraControl : MonoBehaviour
             transform.RotateAround(target.transform.position, transform.right, -((Input.GetAxisRaw("Mouse Y") * Time.deltaTime) * moveSpeed));
         }
     
-        ZoomCamera();
+        // ZoomCamera();
     }
     
     private void ZoomCamera()

@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class EarthManager : MonoBehaviour
 {
+    [SerializeField] private GameObject _earth;
     [SerializeField] private GameObject _line;
     [SerializeField] private float _radius;
     [SerializeField] private float _lineWidth;
@@ -14,13 +15,13 @@ public class EarthManager : MonoBehaviour
     {
         DrawCircle(_line, _radius, _lineWidth);
         await Task.Delay(5000);
-        gameObject.AddComponent<SphereCollider>().radius = 10;
-        
+        // gameObject.AddComponent<SphereCollider>().radius = 10;
     }
 
     private void Update()
     {
         DrawCircle(_line, _radius, _lineWidth);
+        HoldEarthRotation();
     }
 
     public void DrawCircle(GameObject container, float radius, float lineWidth)
@@ -46,5 +47,10 @@ public class EarthManager : MonoBehaviour
         }
 
         line.SetPositions(points);
+    }
+
+    private void HoldEarthRotation()
+    {
+        _earth.transform.rotation = Quaternion.identity;
     }
 }

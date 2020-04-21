@@ -772,7 +772,6 @@ GameObject:
   m_Component:
   - component: {fileID: 148649868}
   - component: {fileID: 148649867}
-  - component: {fileID: 148649869}
   - component: {fileID: 148649870}
   - component: {fileID: 148649871}
   - component: {fileID: 148649872}
@@ -803,7 +802,7 @@ MonoBehaviour:
   - {fileID: 983220674}
   - {fileID: 170208278}
   _rocket: {fileID: 570489615}
-  _rocketControl: {fileID: 148649869}
+  _rocketControl: {fileID: 570489619}
   _flames:
   - {fileID: 344710144}
   - {fileID: 7315611}
@@ -813,6 +812,7 @@ MonoBehaviour:
   _distanceMeasure: {fileID: 148649871}
   _background: {fileID: 148649872}
   _cloudsCreator: {fileID: 148649873}
+  _camera: {fileID: 534669904}
 --- !u!4 &148649868
 Transform:
   m_ObjectHideFlags: 0
@@ -827,21 +827,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &148649869
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 148649866}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1f81f090f8a24f48878467c346e1e06, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _firstStageManager: {fileID: 148649867}
-  _rocket: {fileID: 570489615}
-  camera: {fileID: 534669905}
 --- !u!114 &148649870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2127,7 +2112,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 534669902}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 4.5, z: -11.77}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -2239,6 +2224,7 @@ GameObject:
   - component: {fileID: 570489616}
   - component: {fileID: 570489617}
   - component: {fileID: 570489618}
+  - component: {fileID: 570489619}
   m_Layer: 0
   m_Name: Rocket
   m_TagString: Untagged
@@ -2304,6 +2290,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6863382f5505c74ebc5ffa4ab2f7e59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &570489619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 570489615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1f81f090f8a24f48878467c346e1e06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _firstStageManager: {fileID: 148649867}
 --- !u!1 &575516685
 GameObject:
   m_ObjectHideFlags: 0
@@ -4743,7 +4742,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 50.699615, y: -0.5001221}
-  m_SizeDelta: {x: 216.6, y: 42.399994}
+  m_SizeDelta: {x: 349.5, y: 42.4}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1368270308
 MonoBehaviour:
@@ -5608,15 +5607,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 0cf4aff665cf00849bd68ac343bb84ff, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 0cf4aff665cf00849bd68ac343bb84ff, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 0cf4aff665cf00849bd68ac343bb84ff, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 0cf4aff665cf00849bd68ac343bb84ff, type: 3}
       propertyPath: m_LocalRotation.w
@@ -5941,7 +5940,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 50.700012, y: 39}
-  m_SizeDelta: {x: 216.6, y: 42.399994}
+  m_SizeDelta: {x: 349.5, y: 42.4}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1775408146
 MonoBehaviour:

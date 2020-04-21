@@ -34,12 +34,7 @@ public class DistanceMeasure : MonoBehaviour
 
     private void MeasureDistanceAndSpeedOnEarth()
     {
-        if (_startManager.IsRocketInSpace)
-        {
-            _floor = GameObject.Find("Earth");
-        }
         Distance = (decimal) Vector3.Distance(_rocket.transform.position, _floor.transform.position);
-
         Distance -= 69.23332M; // start distance from floor to rocket
         Distance /= 100; // estimate real distance
         Distance = TruncateDecimal(Distance, 2);
@@ -50,7 +45,14 @@ public class DistanceMeasure : MonoBehaviour
 
     private void MeasureDistanceAndSpeedInSpace()
     {
-        _floor = GameObject.Find(""); //TODO: nazwa obiektu w Rosji
+        if (_floor == null)
+        {
+            _floor = GameObject.Find("Earth");
+        }
+        // Distance = TruncateDecimal((decimal)_floor.GetComponent<EarthGravity>().Distance, 2);
+        Distance = (decimal)_floor.GetComponent<EarthGravity>().Distance;
+        Distance = TruncateDecimal(Distance, 1);
+        Debug.Log(_floor + " " + Distance);
     }
 
     private decimal TruncateDecimal(decimal value, int precision)

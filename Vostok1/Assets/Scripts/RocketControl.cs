@@ -6,17 +6,9 @@ using UnityEngine;
 public class RocketControl : MonoBehaviour
 {
     [SerializeField] private StartManager _firstStageManager;
-    [SerializeField] private GameObject _rocket;
-    [SerializeField] private Transform camera;
 
-    private Rigidbody _rocketRigidbody;
 
     public bool IsRocketOn { get; private set; } = true;
-
-    private void Start()
-    {
-        _rocketRigidbody = _rocket.GetComponent<Rigidbody>();
-    }
 
     private void Update()
     {
@@ -27,22 +19,22 @@ public class RocketControl : MonoBehaviour
         }
         if (IsRocketOn)
         {
-            _rocketRigidbody.AddRelativeForce(transform.up * Time.deltaTime * _firstStageManager.RocketForce);
+            GetComponent<Rigidbody>().AddRelativeForce(Vector3.up * Time.deltaTime * _firstStageManager.RocketForce);
         }
 
         if (Input.GetAxis("Horizontal") == 1 || Input.GetAxis("Horizontal") == -1)
         {
-            _rocketRigidbody.AddTorque(Vector3.forward * Time.deltaTime * 50 * Input.GetAxis("Horizontal"));  
+            GetComponent<Rigidbody>().AddTorque(transform.right * Time.deltaTime * Input.GetAxis("Horizontal") * 300);
         }
-        
-        if (Input.GetAxis("Vertical") == 1 || Input.GetAxis("Vertical") == -1)
-        {
-            _rocketRigidbody.AddTorque(Vector3.right * Time.deltaTime * 50 * Input.GetAxis("Vertical"));
-        }
-        
+
         if (Input.GetAxis("Rotation") == 1 || Input.GetAxis("Rotation") == -1)
         {
-            _rocketRigidbody.AddTorque(Vector3.down * Time.deltaTime * 50 * Input.GetAxis("Rotation"));
+            GetComponent<Rigidbody>().AddTorque(transform.up * Time.deltaTime * Input.GetAxis("Rotation") * 300);
+        }
+
+        if (Input.GetAxis("Vertical") == 1 || Input.GetAxis("Vertical") == -1)
+        {
+            GetComponent<Rigidbody>().AddTorque(transform.forward * Time.deltaTime * Input.GetAxis("Vertical") * 300);
         }
     }   
 
