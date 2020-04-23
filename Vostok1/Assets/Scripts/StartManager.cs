@@ -20,7 +20,7 @@ public class StartManager : MonoBehaviour
     [SerializeField] private Camera _camera;
 
     public const decimal DISTANCETOSPACE = 6.5M;
-    public const decimal DISTANCETOCREATECLOUDS = 3.5M;
+    public const decimal DISTANCETOCREATECLOUDS = 4M;
     public const decimal DISTANCETOINCREASEEMISSION = 5.5M;
 
     public bool IsRocketInSpace { get; private set; }
@@ -34,16 +34,20 @@ public class StartManager : MonoBehaviour
     public float RocketFuel { get; private set; }
 
     private bool _droppedBoosters;
+    private bool _droppedCapsuleCover;
     private bool _droppedMainEngine;
     private bool _droppedCapsuleBooster;
+
 
     private bool _spaceVariablesInitialized;
 
     private List<Transform> _boosters;
+    private List<Transform> _capsuleCovers;
 
     private void Start()
     {
         _boosters = new List<Transform>();
+        _capsuleCovers = new List<Transform>();
 
         foreach (var flame in _flames)
         {
@@ -51,8 +55,8 @@ public class StartManager : MonoBehaviour
         }
 
         RocketForce = 4500;
-        RocketFuel = 1500;
-        BoostersFuel = 1500;
+        RocketFuel = 2500;
+        BoostersFuel = 1800;
         IsRocketInSpace = false;
     }
 
@@ -110,13 +114,17 @@ public class StartManager : MonoBehaviour
 
         else
         {
-            await Task.Delay(5000);
-            _cloudsCreator.ToggleClouds(false);
+            StartCoroutine(Clouds());
 
-            if (!_droppedMainEngine && RocketFuel <= 0)
+            if (!_droppedCapsuleCover && (RocketFuel <= 700) || Input.GetKeyDown(KeyCode.Space))
+            {
+                DropCapsuleCover();
+            }
+
+            if (!_droppedMainEngine && (RocketFuel <= 0 || Input.GetKeyDown(KeyCode.Space)))
             {
                 DropMainEngine();
-                // Camera.main.transform.LookAt(_rocket.transform);
+                Camera.main.transform.LookAt(_rocket.transform);
             }
         }
 
@@ -125,15 +133,22 @@ public class StartManager : MonoBehaviour
             
             if (BoostersFuel > 0 && !_droppedBoosters) // stage 1;
             {
-                BoostersFuel -= Time.deltaTime * 50;
+                BoostersFuel -= Time.deltaTime * 80;
             }
             else if (RocketFuel > 0 && !_droppedMainEngine) // stage 2;
             {
-                RocketFuel -= Time.deltaTime * 20;
+                RocketFuel -= Time.deltaTime * 50;
             }
         }
         ToggleFlames(_rocketControl.IsRocketOn);
     }
+
+    private IEnumerator Clouds()
+    {
+        yield return new WaitForSeconds(5f);
+        _cloudsCreator.ToggleClouds(false);
+    }
+
     private void ReleaseTheHolders()
     {
         // Animation of holders to release the rocket.
@@ -215,13 +230,44 @@ public class StartManager : MonoBehaviour
         _rocket.GetComponent<Rigidbody>().mass -= 2;
     }
 
+    private void DropCapsuleCover()
+    {
+        if (_droppedCapsuleCover) return;
+        _droppedCapsuleCover = true;
+        var sequence = DOTween.Sequence();
+        for (var i = 0; i < 2; i++) //covers are on 0-2 position now
+        {
+            var cover = _rocket.transform.GetChild(i);
+            switch (i)
+            {
+                case 0:
+                    sequence.Join(cover.DORotate(new Vector3(179, 0, 0), 3f));
+                    break;
+                case 1:
+                    sequence.Join(cover.DORotate(new Vector3(-179, 0, 0), 3f));
+                    break;
+            }
+        }
+
+        sequence.OnComplete(EndDropCapsuleCover);
+    }
+
+    private void EndDropCapsuleCover()
+    {
+        for (var i = 0; i < 2; i++)
+        {
+            var cover = _rocket.transform.GetChild(0);
+            cover.parent = null;
+        }
+    }
+
     private void DropMainEngine()
     {
         if (_droppedMainEngine) return;
         _droppedMainEngine = true;
         _rocket.transform.GetChild(0).parent = null;
         _rocket.GetComponent<Rigidbody>().mass -= 2;
-        _camera.transform.parent = _rocket.transform.GetChild(0);
+        // _camera.transform.parent = _rocket.transform.GetChild(0);
     }
 
     private void FlyToSpace()
@@ -235,12 +281,13 @@ public class StartManager : MonoBehaviour
     {
         if (_spaceVariablesInitialized) return;
         _rocket.transform.position = new Vector3(-255.8f, 784.07f, -576.16f);
-        RocketForce = 40;
+        RocketForce = 50;
+        // RocketFuel = 1000;
         var rocketFlame = GameObject.Find("Flames (3)").GetComponent<ParticleSystem>();
         var rocketFlameMain = rocketFlame.main;
         rocketFlameMain.simulationSpace = ParticleSystemSimulationSpace.Local;
         _rocket.GetComponent<Rigidbody>().velocity = _rocket.GetComponent<Rigidbody>().velocity / 100;
         _rocket.GetComponent<Rigidbody>().useGravity = false;
-        _rocket.GetComponent<Rigidbody>().rotation = new Quaternion(0, 0, 0, 1);
+        _rocket.GetComponent<Rigidbody>().rotation = Quaternion.identity;
     }
 }

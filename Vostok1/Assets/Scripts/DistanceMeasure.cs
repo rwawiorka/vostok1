@@ -49,10 +49,11 @@ public class DistanceMeasure : MonoBehaviour
         {
             _floor = GameObject.Find("Earth");
         }
-        // Distance = TruncateDecimal((decimal)_floor.GetComponent<EarthGravity>().Distance, 2);
         Distance = (decimal)_floor.GetComponent<EarthGravity>().Distance;
-        Distance = TruncateDecimal(Distance, 1);
-        Debug.Log(_floor + " " + Distance);
+        Distance = TruncateDecimal(TruncateDecimal(Distance, 1) / 8, 1);
+        Speed = (decimal)((_rocket.transform.position - lastPos).magnitude * 900) * 50 + 5000;
+        lastPos = _rocket.transform.position;
+        Speed = Math.Truncate(Speed);
     }
 
     private decimal TruncateDecimal(decimal value, int precision)

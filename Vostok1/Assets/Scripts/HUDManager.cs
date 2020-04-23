@@ -31,7 +31,7 @@ public class HUDManager : MonoBehaviour
             _distanceText.color = _speedText.color = _fuelText.color = Color.white;
         }
 
-        if (_distance.Speed != 0)
+        if (_distance.Speed != 0 && _distance.Speed != 5000)
         {
             _speedText.text = "Speed: " + _distance.Speed + "km/h";
         }
