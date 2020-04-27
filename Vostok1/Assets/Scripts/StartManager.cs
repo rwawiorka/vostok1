@@ -14,6 +14,8 @@ public class StartManager : MonoBehaviour
     [SerializeField] private GameObject _rocket;
     [SerializeField] private RocketControl _rocketControl;
     [SerializeField] private ParticleSystem[] _flames;
+    [SerializeField] private GameObject capsuleBoosterFlame;
+    [SerializeField] private GameObject[] capsuleAnthennas;
     [SerializeField] private DistanceMeasure _distanceMeasure;
     [SerializeField] private BackgroundDimmer _background;
     [SerializeField] private CloudsCreator _cloudsCreator;
@@ -33,11 +35,13 @@ public class StartManager : MonoBehaviour
 
     public float RocketFuel { get; private set; }
 
+    public float CapsuleBoosterFuel { get; private set; }
+
     private bool _droppedBoosters;
     private bool _droppedCapsuleCover;
     private bool _droppedMainEngine;
     private bool _droppedCapsuleBooster;
-
+    private bool _anthennasExtended;
 
     private bool _spaceVariablesInitialized;
 
@@ -57,6 +61,7 @@ public class StartManager : MonoBehaviour
         RocketForce = 4500;
         RocketFuel = 2500;
         BoostersFuel = 1800;
+        CapsuleBoosterFuel = 1000;
         IsRocketInSpace = false;
     }
 
@@ -124,7 +129,14 @@ public class StartManager : MonoBehaviour
             if (!_droppedMainEngine && (RocketFuel <= 0 || Input.GetKeyDown(KeyCode.Space)))
             {
                 DropMainEngine();
-                Camera.main.transform.LookAt(_rocket.transform);
+                capsuleBoosterFlame.SetActive(true);
+                RocketForce /= 5;
+            }
+
+            if (!_droppedCapsuleBooster && (CapsuleBoosterFuel <= 0) || Input.GetKeyDown(KeyCode.Space))
+            {
+                DropCapsuleBooster();
+                ExtendAnthennas();
             }
         }
 
@@ -138,6 +150,10 @@ public class StartManager : MonoBehaviour
             else if (RocketFuel > 0 && !_droppedMainEngine) // stage 2;
             {
                 RocketFuel -= Time.deltaTime * 50;
+            }
+            else if (CapsuleBoosterFuel > 0 && !_droppedCapsuleBooster) // stage 3;
+            {
+                CapsuleBoosterFuel -= Time.deltaTime * 20;
             }
         }
         ToggleFlames(_rocketControl.IsRocketOn);
@@ -261,13 +277,31 @@ public class StartManager : MonoBehaviour
         }
     }
 
-    private void DropMainEngine()
+    private async void DropMainEngine()
     {
         if (_droppedMainEngine) return;
         _droppedMainEngine = true;
         _rocket.transform.GetChild(0).parent = null;
         _rocket.GetComponent<Rigidbody>().mass -= 2;
         // _camera.transform.parent = _rocket.transform.GetChild(0);
+    }
+
+    private void DropCapsuleBooster()
+    {
+        if (_droppedCapsuleBooster) return;
+        _droppedCapsuleBooster = true;
+        _rocket.transform.GetChild(0).parent = null;
+        _rocket.GetComponent<Rigidbody>().mass -= 2;
+    }
+
+    private void ExtendAnthennas()
+    {
+        if (_anthennasExtended) return;
+        _anthennasExtended = true;
+        foreach (var anthenna in capsuleAnthennas)
+        {
+            anthenna.transform.DOScale(new Vector3(1, 1, 1), 2f);
+        }
     }
 
     private void FlyToSpace()
