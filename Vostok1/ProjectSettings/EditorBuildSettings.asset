@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SpaceScene.unity
     guid: 1dc3085f4be43524d9d401320bb7f825
+  - enabled: 1
+    path: Assets/Scenes/LandingScene.unity
+    guid: 14b9b512a052ad548b83006fd032d531
   m_configObjects: {}

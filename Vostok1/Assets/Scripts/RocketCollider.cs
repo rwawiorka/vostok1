@@ -1,16 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RocketCollider : MonoBehaviour
 {
     private Transform[] children;
 
-
     private void Start()
     {
         children = transform.GetComponentsInChildren<Transform>();
-
     }
 
     private void OnCollisionEnter(Collision col)
@@ -29,6 +28,11 @@ public class RocketCollider : MonoBehaviour
 
                 }
             }
+        }
+
+        if (col.gameObject.name.Contains("Russia"))
+        {
+            SceneManager.LoadScene("LandingScene");
         }
     }
 }

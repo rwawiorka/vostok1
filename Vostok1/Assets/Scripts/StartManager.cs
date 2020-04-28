@@ -44,9 +44,11 @@ public class StartManager : MonoBehaviour
     private bool _anthennasExtended;
 
     private bool _spaceVariablesInitialized;
+    private bool _landingVariablesInitialized;
 
     private List<Transform> _boosters;
     private List<Transform> _capsuleCovers;
+    
 
     private void Start()
     {
@@ -136,6 +138,7 @@ public class StartManager : MonoBehaviour
             if (!_droppedCapsuleBooster && (CapsuleBoosterFuel <= 0) || Input.GetKeyDown(KeyCode.Space))
             {
                 DropCapsuleBooster();
+                await Task.Delay(5000);
                 ExtendAnthennas();
             }
         }
@@ -323,5 +326,10 @@ public class StartManager : MonoBehaviour
         _rocket.GetComponent<Rigidbody>().velocity = _rocket.GetComponent<Rigidbody>().velocity / 100;
         _rocket.GetComponent<Rigidbody>().useGravity = false;
         _rocket.GetComponent<Rigidbody>().rotation = Quaternion.identity;
+    }
+
+    private void InitializeLandingVariables()
+    {
+        if (_landingVariablesInitialized) return;
     }
 }
