@@ -59,7 +59,7 @@ public class HUDManager : MonoBehaviour
         }
         else if (_startManager.CapsuleBoosterFuel > 0)
         {
-            _fuelText.text = "Capsule Booster Fuel: " + Math.Truncate(_startManager.RocketFuel) + "l";
+            _fuelText.text = "Capsule Booster Fuel: " + Math.Truncate(_startManager.CapsuleBoosterFuel) + "l";
         }
         
     }

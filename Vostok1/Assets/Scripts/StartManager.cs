@@ -37,6 +37,8 @@ public class StartManager : MonoBehaviour
 
     public float CapsuleBoosterFuel { get; private set; }
 
+    public float ControlForce { get; private set; }
+
     private bool _droppedBoosters;
     private bool _droppedCapsuleCover;
     private bool _droppedMainEngine;
@@ -47,13 +49,11 @@ public class StartManager : MonoBehaviour
     private bool _landingVariablesInitialized;
 
     private List<Transform> _boosters;
-    private List<Transform> _capsuleCovers;
     
 
     private void Start()
     {
         _boosters = new List<Transform>();
-        _capsuleCovers = new List<Transform>();
 
         foreach (var flame in _flames)
         {
@@ -64,6 +64,7 @@ public class StartManager : MonoBehaviour
         RocketFuel = 2500;
         BoostersFuel = 1800;
         CapsuleBoosterFuel = 1000;
+        ControlForce = 300;
         IsRocketInSpace = false;
     }
 
@@ -96,11 +97,6 @@ public class StartManager : MonoBehaviour
                 DropBoosters();
             }
 
-            if (RocketCanStart)
-            {
-                ToggleFlames(_rocketControl.IsRocketOn);
-            }
-            
             if (_distanceMeasure.Distance >= DISTANCETOSPACE)
             {
                 if (SceneManager.GetActiveScene().name == "SpaceScene") return;
@@ -133,6 +129,7 @@ public class StartManager : MonoBehaviour
                 DropMainEngine();
                 capsuleBoosterFlame.SetActive(true);
                 RocketForce /= 5;
+                ControlForce -= 250;
             }
 
             if (!_droppedCapsuleBooster && (CapsuleBoosterFuel <= 0) || Input.GetKeyDown(KeyCode.Space))
@@ -280,7 +277,7 @@ public class StartManager : MonoBehaviour
         }
     }
 
-    private async void DropMainEngine()
+    private void DropMainEngine()
     {
         if (_droppedMainEngine) return;
         _droppedMainEngine = true;
@@ -303,7 +300,7 @@ public class StartManager : MonoBehaviour
         _anthennasExtended = true;
         foreach (var anthenna in capsuleAnthennas)
         {
-            anthenna.transform.DOScale(new Vector3(1, 1, 1), 2f);
+            anthenna.transform.DOScale(new Vector3(1, 1, 1), 5f);
         }
     }
 

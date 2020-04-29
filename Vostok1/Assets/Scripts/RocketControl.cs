@@ -24,17 +24,17 @@ public class RocketControl : MonoBehaviour
 
         if (Input.GetAxis("Horizontal") == 1 || Input.GetAxis("Horizontal") == -1)
         {
-            GetComponent<Rigidbody>().AddTorque(transform.right * Time.deltaTime * Input.GetAxis("Horizontal") * 300);
+            GetComponent<Rigidbody>().AddTorque(transform.right * Time.deltaTime * Input.GetAxis("Horizontal") * _firstStageManager.ControlForce);
         }
 
         if (Input.GetAxis("Rotation") == 1 || Input.GetAxis("Rotation") == -1)
         {
-            GetComponent<Rigidbody>().AddTorque(transform.up * Time.deltaTime * Input.GetAxis("Rotation") * 300);
+            GetComponent<Rigidbody>().AddTorque(transform.up * Time.deltaTime * Input.GetAxis("Rotation") * _firstStageManager.ControlForce);
         }
 
         if (Input.GetAxis("Vertical") == 1 || Input.GetAxis("Vertical") == -1)
         {
-            GetComponent<Rigidbody>().AddTorque(transform.forward * Time.deltaTime * Input.GetAxis("Vertical") * 300);
+            GetComponent<Rigidbody>().AddTorque(transform.forward * Time.deltaTime * Input.GetAxis("Vertical") * _firstStageManager.ControlForce);
         }
     }   
 
