@@ -23,17 +23,11 @@ public class BackgroundDimmer : MonoBehaviour
 
     private IEnumerator Fade()
     {
-        while (!_startManager.IsRocketInSpace)
+        while (!_startManager.SpaceStage && !_startManager.LandingStage)
         {
-            //TODO: Delete EditorApplication on build
             TimeRocketOn -= Time.deltaTime / 8;
             RenderSettings.skybox.SetFloat("_Exposure", TimeRocketOn);
             yield return new WaitForSeconds(0.1f);
         }
-    }
-
-    private void CreateClouds()
-    {
-        
     }
 }

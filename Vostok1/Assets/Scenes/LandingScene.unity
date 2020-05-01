@@ -4767,7 +4767,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!81 &956588154
 AudioListener:
   m_ObjectHideFlags: 0
@@ -4985,7 +4985,7 @@ MonoBehaviour:
   coord:
     x: 0
     z: 0
-  distance: 1
+  distance: 0
   preview: 1
   objectsPool: {fileID: 37405308}
   serialized_main:

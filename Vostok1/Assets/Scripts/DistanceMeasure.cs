@@ -21,7 +21,7 @@ public class DistanceMeasure : MonoBehaviour
     
     private void Update()
     {
-        if (_startManager.IsRocketInSpace)
+        if (_startManager.SpaceStage)
         {
             MeasureDistanceAndSpeedInSpace();
         }

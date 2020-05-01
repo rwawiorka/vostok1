@@ -26,10 +26,16 @@ public class HUDManager : MonoBehaviour
     {
         if (!_startManager.RocketCanStart) return;
 
-        if (_startManager.IsRocketInSpace)
+        if (_startManager.StartStage || _startManager.LandingStage)
         {
             _distanceText.color = _speedText.color = _fuelText.color = Color.white;
         }
+
+        else
+        {
+            _distanceText.color = _speedText.color = _fuelText.color = Color.white;
+        }
+
 
         if (_distance.Speed != 0 && _distance.Speed != 5000)
         {

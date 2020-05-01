@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class RocketCollider : MonoBehaviour
 {
+    [SerializeField] private StartManager _startManager;
+
     private Transform[] children;
 
     private void Start()
@@ -32,6 +34,9 @@ public class RocketCollider : MonoBehaviour
 
         if (col.gameObject.name.Contains("Russia"))
         {
+            _startManager.StartStage = false;
+            _startManager.SpaceStage = false;
+            _startManager.LandingStage = true;
             SceneManager.LoadScene("LandingScene");
         }
     }

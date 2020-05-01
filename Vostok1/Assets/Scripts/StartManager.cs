@@ -25,7 +25,11 @@ public class StartManager : MonoBehaviour
     public const decimal DISTANCETOCREATECLOUDS = 4M;
     public const decimal DISTANCETOINCREASEEMISSION = 5.5M;
 
-    public bool IsRocketInSpace { get; private set; }
+    public bool StartStage { get; set; }
+
+    public bool SpaceStage { get; set; }
+
+    public bool LandingStage { get; set; }
 
     public bool RocketCanStart { get; private set; }
 
@@ -65,13 +69,15 @@ public class StartManager : MonoBehaviour
         BoostersFuel = 1800;
         CapsuleBoosterFuel = 1000;
         ControlForce = 300;
-        IsRocketInSpace = false;
+        SpaceStage = false;
+        LandingStage = false;
+        StartStage = true;
     }
 
     private async void Update()
     {
         // First stage - Release the rocket holders
-        if (!IsRocketInSpace)
+        if (StartStage)
         {
             if (Input.GetKeyDown(KeyCode.Space) && !RocketCanStart)
             {
@@ -90,7 +96,23 @@ public class StartManager : MonoBehaviour
                 DropBoosters();
                 await Task.Delay(2500);
                 FlyToSpace();
-            } 
+            }
+
+            if (Input.GetKeyDown(KeyCode.F4))
+            {
+                if (!_droppedBoosters)
+                {
+                    DropBoosters();
+                    await Task.Delay(2000);
+                }
+                DropMainEngine();
+                await Task.Delay(500);
+                DropCapsuleCover();
+                await Task.Delay(500);
+                DropCapsuleBooster();
+                await Task.Delay(500);
+                BackToEarth();
+            }
 
             if (!_droppedBoosters && (Input.GetKeyDown(KeyCode.Space) || _distanceMeasure.Distance >= DISTANCETOCREATECLOUDS || BoostersFuel <= 0))
             {
@@ -115,7 +137,7 @@ public class StartManager : MonoBehaviour
             }
         }
 
-        else
+        else if(SpaceStage)
         {
             StartCoroutine(Clouds());
 
@@ -138,6 +160,17 @@ public class StartManager : MonoBehaviour
                 await Task.Delay(5000);
                 ExtendAnthennas();
             }
+        }
+
+        else if(LandingStage)
+        {
+            if (!_cloudsCreator.IsCloudToggled)
+            {
+                _cloudsCreator.DecreaseCloudEmission();
+            }
+
+            
+            
         }
 
         if (_rocketControl.IsRocketOn)
@@ -306,9 +339,12 @@ public class StartManager : MonoBehaviour
 
     private void FlyToSpace()
     {
-        IsRocketInSpace = true;
+        StartStage = false;
+        LandingStage = false;
+        SpaceStage = true;
         SceneManager.LoadSceneAsync("SpaceScene");
         InitializeSpaceVariables();
+        _spaceVariablesInitialized = true;
     }
 
     private void InitializeSpaceVariables()
@@ -328,5 +364,18 @@ public class StartManager : MonoBehaviour
     private void InitializeLandingVariables()
     {
         if (_landingVariablesInitialized) return;
+        _rocket.transform.position = new Vector3(0, 1000, 0);
+        RenderSettings.skybox.SetFloat("_Exposure", 1);
+
+    }
+
+    private void BackToEarth()
+    {
+        StartStage = false;
+        SpaceStage = false;
+        LandingStage = true;
+        SceneManager.LoadScene("LandingScene");
+        InitializeLandingVariables();
+        _spaceVariablesInitialized = true;
     }
 }

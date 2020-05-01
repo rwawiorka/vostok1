@@ -9,7 +9,8 @@ public class CloudsCreator : MonoBehaviour
     [SerializeField] private GameObject _camera;
     [SerializeField] private DistanceMeasure _distanceMeasure;
 
-    private const float SPEED = 10f;
+    private float _timeLeft = 5f;
+
     public bool IsCloudToggled { get; private set; }
 
     public void ToggleClouds(bool toggle)
@@ -38,9 +39,28 @@ public class CloudsCreator : MonoBehaviour
         while (_distanceMeasure.Distance >= StartManager.DISTANCETOCREATECLOUDS &&
                _distanceMeasure.Distance <= StartManager.DISTANCETOINCREASEEMISSION)
         {
-            increase++;
             var emmissionModule = _cloud.emission;
             emmissionModule.rateOverDistance = increase;
+            increase++;
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
+    public void DecreaseCloudEmission()
+    {
+        StartCoroutine(DecreaseClouds());
+    }
+
+    private IEnumerator DecreaseClouds()
+    {
+
+        _cloud.gameObject.SetActive(true);
+        IsCloudToggled = true;
+        while (_timeLeft > 0)
+        {
+            var emissionModule = _cloud.emission;
+            emissionModule.rateOverDistance = _timeLeft;
+            _timeLeft -= 1;
             yield return new WaitForSeconds(1f);
         }
     }
