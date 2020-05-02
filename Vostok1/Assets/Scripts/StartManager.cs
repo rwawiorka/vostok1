@@ -14,12 +14,13 @@ public class StartManager : MonoBehaviour
     [SerializeField] private GameObject _rocket;
     [SerializeField] private RocketControl _rocketControl;
     [SerializeField] private ParticleSystem[] _flames;
-    [SerializeField] private GameObject capsuleBoosterFlame;
-    [SerializeField] private GameObject[] capsuleAnthennas;
+    [SerializeField] private GameObject _capsuleBoosterFlame;
+    [SerializeField] private GameObject[] _capsuleAnthennas;
     [SerializeField] private DistanceMeasure _distanceMeasure;
     [SerializeField] private BackgroundDimmer _background;
     [SerializeField] private CloudsCreator _cloudsCreator;
     [SerializeField] private Camera _camera;
+    [SerializeField] private GameObject _capsuleBooster;
 
     public const decimal DISTANCETOSPACE = 6.5M;
     public const decimal DISTANCETOCREATECLOUDS = 4M;
@@ -48,16 +49,19 @@ public class StartManager : MonoBehaviour
     private bool _droppedMainEngine;
     private bool _droppedCapsuleBooster;
     private bool _anthennasExtended;
+    private bool _anthennasHidden;
 
     private bool _spaceVariablesInitialized;
     private bool _landingVariablesInitialized;
 
     private List<Transform> _boosters;
+    private List<Transform> _capsuleCovers;
     
 
     private void Start()
     {
         _boosters = new List<Transform>();
+        _capsuleCovers = new List<Transform>();
 
         foreach (var flame in _flames)
         {
@@ -98,13 +102,15 @@ public class StartManager : MonoBehaviour
                 FlyToSpace();
             }
 
+            
+
             if (Input.GetKeyDown(KeyCode.F4))
             {
                 if (!_droppedBoosters)
                 {
                     DropBoosters();
-                    await Task.Delay(2000);
-                }
+                    await Task.Delay(2500);
+                } 
                 DropMainEngine();
                 await Task.Delay(500);
                 DropCapsuleCover();
@@ -122,10 +128,6 @@ public class StartManager : MonoBehaviour
             if (_distanceMeasure.Distance >= DISTANCETOSPACE)
             {
                 if (SceneManager.GetActiveScene().name == "SpaceScene") return;
-                foreach (var booster in _boosters)
-                {
-                    DestroyImmediate(booster.gameObject);
-                }
                 FlyToSpace();
 
             }
@@ -139,7 +141,7 @@ public class StartManager : MonoBehaviour
 
         else if(SpaceStage)
         {
-            StartCoroutine(Clouds());
+            _cloudsCreator.ToggleClouds(false);
 
             if (!_droppedCapsuleCover && (RocketFuel <= 700) || Input.GetKeyDown(KeyCode.Space))
             {
@@ -149,7 +151,7 @@ public class StartManager : MonoBehaviour
             if (!_droppedMainEngine && (RocketFuel <= 0 || Input.GetKeyDown(KeyCode.Space)))
             {
                 DropMainEngine();
-                capsuleBoosterFlame.SetActive(true);
+                _capsuleBoosterFlame.SetActive(true);
                 RocketForce /= 5;
                 ControlForce -= 250;
             }
@@ -157,8 +159,9 @@ public class StartManager : MonoBehaviour
             if (!_droppedCapsuleBooster && (CapsuleBoosterFuel <= 0) || Input.GetKeyDown(KeyCode.Space))
             {
                 DropCapsuleBooster();
+                ControlForce -= 40;
                 await Task.Delay(5000);
-                ExtendAnthennas();
+                ExtendAnthennas(); 
             }
         }
 
@@ -168,9 +171,6 @@ public class StartManager : MonoBehaviour
             {
                 _cloudsCreator.DecreaseCloudEmission();
             }
-
-            
-            
         }
 
         if (_rocketControl.IsRocketOn)
@@ -190,12 +190,10 @@ public class StartManager : MonoBehaviour
             }
         }
         ToggleFlames(_rocketControl.IsRocketOn);
-    }
-
-    private IEnumerator Clouds()
-    {
-        yield return new WaitForSeconds(5f);
-        _cloudsCreator.ToggleClouds(false);
+        if (Input.GetKeyDown(KeyCode.F5))
+        {
+            FixCapsuleCoordinates();
+        }
     }
 
     private void ReleaseTheHolders()
@@ -222,6 +220,9 @@ public class StartManager : MonoBehaviour
 
     private void ToggleFlames(bool isRocketOn)
     {
+
+        if (_droppedMainEngine) return;
+
         foreach (var flame in _flames)
         {
             if (isRocketOn)
@@ -269,14 +270,22 @@ public class StartManager : MonoBehaviour
         sequence.OnComplete(EndDropBoosters);
     }
 
-    private void EndDropBoosters()
+    private async void EndDropBoosters()
     {
+        _rocket.GetComponent<Rigidbody>().mass -= 2;
+        
         for (var i = 0; i <= 3; i++)
         {
             var booster = _rocket.transform.GetChild(0);
             booster.parent = null;
         }
-        _rocket.GetComponent<Rigidbody>().mass -= 2;
+
+        await Task.Delay(2000);
+
+        foreach (var booster in _boosters)
+        {
+            DestroyImmediate(booster.gameObject);
+        }
     }
 
     private void DropCapsuleCover()
@@ -287,6 +296,7 @@ public class StartManager : MonoBehaviour
         for (var i = 0; i < 2; i++) //covers are on 0-2 position now
         {
             var cover = _rocket.transform.GetChild(i);
+            _capsuleCovers.Add(cover);
             switch (i)
             {
                 case 0:
@@ -301,39 +311,62 @@ public class StartManager : MonoBehaviour
         sequence.OnComplete(EndDropCapsuleCover);
     }
 
-    private void EndDropCapsuleCover()
+    private async void EndDropCapsuleCover()
     {
+        await Task.Delay(2000);
+
         for (var i = 0; i < 2; i++)
         {
             var cover = _rocket.transform.GetChild(0);
             cover.parent = null;
         }
+
+        foreach (var capsuleCover in _capsuleCovers)
+        {
+            DestroyImmediate(capsuleCover.gameObject);
+        }
     }
 
-    private void DropMainEngine()
+    private async void DropMainEngine()
     {
         if (_droppedMainEngine) return;
         _droppedMainEngine = true;
+        var mainEngine = _rocket.transform.GetChild(0);
+
         _rocket.transform.GetChild(0).parent = null;
         _rocket.GetComponent<Rigidbody>().mass -= 2;
-        // _camera.transform.parent = _rocket.transform.GetChild(0);
+        // await Task.Delay(500);
+        // FixCapsuleCoordinates();
+        await Task.Delay(2000);
+        DestroyImmediate(mainEngine.gameObject);
     }
 
     private void DropCapsuleBooster()
     {
         if (_droppedCapsuleBooster) return;
         _droppedCapsuleBooster = true;
-        _rocket.transform.GetChild(0).parent = null;
+        _capsuleBooster.transform.parent = null;
         _rocket.GetComponent<Rigidbody>().mass -= 2;
+        RocketForce = 0;
     }
 
     private void ExtendAnthennas()
     {
         if (_anthennasExtended) return;
         _anthennasExtended = true;
-        foreach (var anthenna in capsuleAnthennas)
+        foreach (var anthenna in _capsuleAnthennas)
         {
             anthenna.transform.DOScale(new Vector3(1, 1, 1), 5f);
+        }
+    }
+
+    private void HideAnthennas()
+    {
+        if (_anthennasHidden) return;
+        _anthennasHidden = true;
+        foreach (var anthenna in _capsuleAnthennas)
+        {
+            anthenna.transform.DOScale(Vector3.zero, 0f);
         }
     }
 
@@ -344,15 +377,15 @@ public class StartManager : MonoBehaviour
         SpaceStage = true;
         SceneManager.LoadSceneAsync("SpaceScene");
         InitializeSpaceVariables();
-        _spaceVariablesInitialized = true;
+        _cloudsCreator.ToggleClouds(false);
     }
 
     private void InitializeSpaceVariables()
     {
         if (_spaceVariablesInitialized) return;
+        _spaceVariablesInitialized = true;
         _rocket.transform.position = new Vector3(-255.8f, 784.07f, -576.16f);
         RocketForce = 50;
-        // RocketFuel = 1000;
         var rocketFlame = GameObject.Find("Flames (3)").GetComponent<ParticleSystem>();
         var rocketFlameMain = rocketFlame.main;
         rocketFlameMain.simulationSpace = ParticleSystemSimulationSpace.Local;
@@ -364,6 +397,7 @@ public class StartManager : MonoBehaviour
     private void InitializeLandingVariables()
     {
         if (_landingVariablesInitialized) return;
+        _landingVariablesInitialized = true;
         _rocket.transform.position = new Vector3(0, 1000, 0);
         RenderSettings.skybox.SetFloat("_Exposure", 1);
 
@@ -376,6 +410,12 @@ public class StartManager : MonoBehaviour
         LandingStage = true;
         SceneManager.LoadScene("LandingScene");
         InitializeLandingVariables();
-        _spaceVariablesInitialized = true;
+        HideAnthennas();
+    }
+
+    private void FixCapsuleCoordinates()
+    {
+        Debug.Log(_rocket.transform.GetChild(0).gameObject.name);
+        _rocket.transform.GetChild(0).position = Vector3.zero;
     }
 }

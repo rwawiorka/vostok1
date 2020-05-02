@@ -67,6 +67,10 @@ public class HUDManager : MonoBehaviour
         {
             _fuelText.text = "Capsule Booster Fuel: " + Math.Truncate(_startManager.CapsuleBoosterFuel) + "l";
         }
+        else
+        {
+            _fuelText.text = "No fuel";
+        }
         
     }
 }

@@ -25,7 +25,7 @@ public class EarthGravity : MonoBehaviour
     private void Gravity()
     {
         Distance = Vector3.Distance(transform.position, _rocket.transform.position);
-        float force = (_thisRb.mass * _rocketRb.mass * 15) / (Distance * Distance);
+        float force = (_thisRb.mass * _rocketRb.mass * 10) / (Distance * Distance);
         _rocketRb.AddForce((transform.position - _rocket.transform.position).normalized * force);
     }
 

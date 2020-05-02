@@ -50,8 +50,8 @@ public class DistanceMeasure : MonoBehaviour
             _floor = GameObject.Find("Earth");
         }
         Distance = (decimal)_floor.GetComponent<EarthGravity>().Distance;
-        Distance = TruncateDecimal(TruncateDecimal(Distance, 1) / 8, 1);
-        Speed = (decimal)((_rocket.transform.position - lastPos).magnitude * 900) * 50 + 5000;
+        Distance = TruncateDecimal(TruncateDecimal(Distance, 1) / 8, 2);
+        Speed = (decimal)((_rocket.transform.position - lastPos).magnitude * 900) * 50 + 5000; // speed goes up in space
         lastPos = _rocket.transform.position;
         Speed = Math.Truncate(Speed);
     }
